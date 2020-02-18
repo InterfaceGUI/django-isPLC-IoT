@@ -29,10 +29,6 @@ def userProfileView(request):
 
     return render(request, "user/user-profile.html", {"form": form,'isUpdate' : isUpdate})
 
-    
-@login_required(login_url="/login/")
-def index(request):
-    return render(request, "index.html")
 
 @login_required(login_url="/login/")
 def pages(request):

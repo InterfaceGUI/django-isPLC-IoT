@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'authentication',
     'dashboard',
     'rest_framework',
-    'isplcAPI'
+    'isplcAPI',
+    'bootstrap_modal_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +58,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
-
+LOGIN_REDIRECT_URL = "home"   # Route defined in app/urls.py
+LOGOUT_REDIRECT_URL = "home"  # Route defined in app/urls.py
 TEMPLATE_DIR = os.path.join(BASE_DIR, "core/templates")  # ROOT dir for templates
 
 TEMPLATES = [

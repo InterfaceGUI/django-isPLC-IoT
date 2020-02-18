@@ -19,10 +19,267 @@
   <div class="row">
     
   </div>
+  <ul id="sortable" class="row">
+    {% for control in Controls%}
+    {% with CK=forloop.counter0 %}
+    {% if control.control_type == 1 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">{{ control.Name }}</span>
+              {%if control.Text == '-'%}
+              <button type="button" id="Cbutton-{{ CK }}" class="my-3 btn btn-sm btn-primary mr-0"
+                style="font-size: 20px; background-color: #007bff; border-color: #0066d3;"> Button </button>
+              {% else %}
+              <button type="button" id="Cbutton-{{ CK }}" class="my-3 btn btn-sm btn-primary mr-0 "
+                style="font-size: 20px; background-color: #007bff; border-color: #0066d3;">{{ control.Text }} </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% elif control.control_type == 2 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">{{ control.Name }}</span>
+              {%if control.Text == '-'%}
+              <div class="custom-control custom-toggle custom-toggle-lg mb-1 mt-2 ml-3">
+                <input type="checkbox" id="customToggle{{ CK }}" name="customToggle{{ CK }}"
+                  class="custom-control-input">
+                <label class="custom-control-label ml-2" for="customToggle{{ CK }}"></label>
+              </div>
+              {% else %}
+              <div class="custom-control custom-toggle custom-toggle-lg mb-1 mt-2">
+                <input type="checkbox" id="customToggle{{ CK }}" name="customToggle{{ CK }}"
+                  class="custom-control-input">
+                <label class="custom-control-label ml-2" for="customToggle{{ CK }}">{{ control.Text }}</label>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% elif control.control_type == 4 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">Indicator</span>
+              <div class="rounded text-white text-center p-3" id="GL-{{ CK }}"
+                style="box-shadow: inset 0 0 5px rgba(0,0,0,.2); width: 100%; margin-right: 6rem!important;">
+                {{ control.Name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% elif control.control_type == 5 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">Indicator</span>
+              <div class="rounded text-white text-center p-3" id="YL-{{ CK }}"
+                style="box-shadow: inset 0 0 5px rgba(0,0,0,.2); width: 100%; margin-right: 6rem!important;">
+                {{ control.Name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% elif control.control_type == 6 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">Indicator</span>
+              <div class="rounded text-white text-center p-3" id="RL-{{ CK }}"
+                style="box-shadow: inset 0 0 5px rgba(0,0,0,.2); width: 100%; margin-right: 6rem!important;">
+                {{ control.Name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% elif control.control_type == 7 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-small__label text-uppercase">{{ control.Name }}</span>
+              <h6 class="stats-small__value count my-3" id="value-{{ CK }}">-------</h6>
+            </div>
+            <div class="stats-small__data">
+              <span class="stats-small__percentage pl-0">{{ control.Text }}</span>
+            </div>
+          </div>
+          <canvas  height="120" class="canvas{{ CK }}"></canvas>
+        </div>
+      </div>
+    </li>
+    {% endif %}
+    <!--
+          {{ control.isPLC_ID }}
+          {{ control.Contact_Type }}
+          {{ control.Contact_ID }}
+            -->
+
+
+
+
+
+
+  {%endwith%}
+  {% endfor %}
+
+
+
+  </ul>
   <!-- Small Stats Blocks -->
   
 </div>
 
+
+{% for control in Controls%}
+{% if control.control_type == 1 %}
+
+<script>
+  
+</script>
+
+{% elif control.control_type == 1 %}
+
+<script>
+
+</script>
+
+{% elif control.control_type == 2 %}
+
+<script>
+
+</script>
+
+{% elif control.control_type == 3 %}
+
+<script>
+
+</script>
+
+{% elif control.control_type == 4 %}
+
+<script>
+
+</script>
+
+{% elif control.control_type == 5 %}
+
+<script>
+
+</script>
+
+{% elif control.control_type == 6 %}
+
+
+{% endif %}
+<script>
+
+
+</script>
+{% endfor %}
+
+
+
+
+
+
+
+<style>
+  .col-lg {
+    list-style: none;
+    float:left;
+    padding: initial;
+  }
+  .ui-state-highlight{
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+  .stats-small {
+    width: 17.5rem;
+  }
+  p.indexlable {
+    position: absolute;
+    border: #a4b0be78 solid 1px;
+    border-radius: 3px;
+    margin: 4px;
+    padding: 0px 4px 0px 4px;
+    color: #a4b0be78;
+  }
+
+  .update-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: -14px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .delete-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: 15px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 12px;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>
 
 
 {% endblock content %}
@@ -30,6 +287,5 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-<script src="/static/assets/js/app/app-blog-overview.1.1.0.js"></script>
 
 {% endblock javascripts %}

@@ -71,7 +71,11 @@
         </div>
         <!-- End Default Light Table -->
     </div>
-
+<script>
+  $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+          $(".alert").slideUp(500);
+  });
+</script>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

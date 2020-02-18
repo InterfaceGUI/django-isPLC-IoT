@@ -6,28 +6,523 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+<!-- Messages -->
+<div>
+  {% if messages %}
+  {% for message in messages %}
+  <div style="border-radius:0;" {% if message.tags %}
+    class="alert alert-icon alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert" {% endif %}>
+    <i class="fa fa-check mx-2"></i>
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+</div>
+<!-- End Messages -->
 
 <div class="main-content-container container-fluid px-4">
-  <!-- Page Header -->
-  <div class="page-header row no-gutters py-4">
-    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-      <span class="text-uppercase page-subtitle">EditMode</span>
-      <h3 class="page-title"></h3>
+
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+      </div>
     </div>
   </div>
-  <!-- End Page Header -->
+
+  <form method="POST" action="">
+    {% csrf_token %}
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+      <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">EditMode</span>
+        <h3 class="page-title"></h3>
+      </div>
+    </div>
+    <!-- End Page Header -->
+    <div style="text-align: right;">
+      <input hidden='true' type="text" id='itemindex' name='itemindex' class="itemindex">
+      <div class="custom-control custom-toggle custom-toggle-md mb-1 mt-2" style="text-align: right; float: right;">
+        <input type="checkbox" id="customToggle-EditMode" name="customToggle-EditMode" class="custom-control-input">
+        <label class="Tooltip custom-control-label ml-2" for="customToggle-EditMode" data-toggle="tooltip"
+          data-placement="auto top" title="編輯、刪除">編輯模式</label>
+      </div>
+      <button type="button" class="create-book mb-2 btn btn-sm btn-info mr-1"> <i class="material-icons"
+          style="font-size: x-large;">add_box</i></button>
+      <button disabled='true' type="submit" class="savebutton submit-btn mb-2 btn btn-sm btn-success mr-2"> <i class="material-icons"
+          style="font-size: x-large;">save</i></button>
+    </div>
+
+  </form>
+
+
+
+  <div class="row">
+
+  </div>
+  <ul id="sortable" class="row">
+    {% for control in Controls%}
+    {% with CK=forloop.counter0 %}
+    {% if control.control_type == 1 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <button type="button" class="update-button btn btn-sm btn-primary RowButton"
+        data-id="{% url 'update_Control' control.pk %}">
+        <i class="material-icons">edit</i>
+      </button> 
+      <button type="button" class="delete-button btn btn-sm btn-danger RowButton"
+        data-id="{% url 'delete_Control' control.pk %}">
+        <i class="material-icons">delete_forever</i>
+      </button>
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">{{ control.Name }}</span>
+              {%if control.Text == '-'%}
+              <button type="button" class="my-3 btn btn-sm btn-primary mr-0"
+                style="font-size: 20px; background-color: #007bff; border-color: #0066d3;"> Button </button>
+              {% else %}
+              <button type="button" class="my-3 btn btn-sm btn-primary mr-0"
+                style="font-size: 20px; background-color: #007bff; border-color: #0066d3;">{{ control.Text }} </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% elif control.control_type == 2 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <button type="button" class="update-button btn btn-sm btn-primary RowButton"
+        data-id="{% url 'update_Control' control.pk %}">
+        <i class="material-icons">edit</i>
+      </button>
+      <button type="button" class="delete-button btn btn-sm btn-danger RowButton"
+        data-id="{% url 'delete_Control' control.pk %}">
+        <i class="material-icons">delete_forever</i>
+      </button>
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">{{ control.Name }}</span>
+              {%if control.Text == '-'%}
+              <div class="custom-control custom-toggle custom-toggle-lg mb-1 mt-2 ml-3">
+                <input type="checkbox" id="customToggle{{ CK }}" name="customToggle{{ CK }}"
+                  class="custom-control-input">
+                <label class="custom-control-label ml-2" for="customToggle{{ CK }}"></label>
+              </div>
+              {% else %}
+              <div class="custom-control custom-toggle custom-toggle-lg mb-1 mt-2">
+                <input type="checkbox" id="customToggle{{ CK }}" name="customToggle{{ CK }}"
+                  class="custom-control-input">
+                <label class="custom-control-label ml-2" for="customToggle{{ CK }}">{{ control.Text }}</label>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% elif control.control_type == 4 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <button type="button" class="update-button btn btn-sm btn-primary RowButton"
+        data-id="{% url 'update_Control' control.pk %}">
+        <i class="material-icons">edit</i>
+      </button>
+      <button type="button" class="delete-button btn btn-sm btn-danger RowButton"
+        data-id="{% url 'delete_Control' control.pk %}">
+        <i class="material-icons">delete_forever</i>
+      </button>
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">Indicator</span>
+              <div class="rounded text-white text-center p-3" id="GL-{{ CK }}"
+                style="box-shadow: inset 0 0 5px rgba(0,0,0,.2); width: 100%; margin-right: 6rem!important;">
+                {{ control.Name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <style>
+      div#GL-{{CK}}:hover {
+        background-color: #17c671;
+      }
+
+      div#GL-{{CK}}{
+        background-color: #00331F;
+      }
+    </style>
+    {% elif control.control_type == 5 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <button type="button" class="update-button btn btn-sm btn-primary RowButton"
+        data-id="{% url 'update_Control' control.pk %}">
+        <i class="material-icons">edit</i>
+      </button>
+      <button type="button" class="delete-button btn btn-sm btn-danger RowButton"
+        data-id="{% url 'delete_Control' control.pk %}">
+        <i class="material-icons">delete_forever</i>
+      </button>
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">Indicator</span>
+              <div class="rounded text-white text-center p-3" id="YL-{{ CK }}"
+                style="box-shadow: inset 0 0 5px rgba(0,0,0,.2); width: 100%; margin-right: 6rem!important;">
+                {{ control.Name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <style>
+      div#YL-{{CK}}:hover {
+        background-color: #ffb400;
+      }
+
+      div#YL-{{CK}}{
+        background-color: #664700;
+      }
+    </style>
+    {% elif control.control_type == 6 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <button type="button" class="update-button btn btn-sm btn-primary RowButton"
+        data-id="{% url 'update_Control' control.pk %}">
+        <i class="material-icons">edit</i>
+      </button>
+      <button type="button" class="delete-button btn btn-sm btn-danger RowButton"
+        data-id="{% url 'delete_Control' control.pk %}">
+        <i class="material-icons">delete_forever</i>
+      </button>
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-large__label text-uppercase" style="font-size: 20px;">Indicator</span>
+              <div class="rounded text-white text-center p-3" id="RL-{{ CK }}"
+                style="box-shadow: inset 0 0 5px rgba(0,0,0,.2); width: 100%; margin-right: 6rem!important;">
+                {{ control.Name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <style>
+      div#RL-{{CK}}:hover {
+        background-color: #c4183c;
+      }
+
+      div#RL-{{CK}}{
+        background-color: #5A0B1C;
+      }
+    </style>
+    {% elif control.control_type == 7 %}
+    <li class="col-lg col-md-6 col-sm-6 mb-4 conindex" id="{{control.pk}}">
+      <button type="button" class="update-button btn btn-sm btn-primary RowButton"
+        data-id="{% url 'update_Control' control.pk %}">
+        <i class="material-icons">edit</i>
+      </button>
+      <button type="button" class="delete-button btn btn-sm btn-danger RowButton"
+        data-id="{% url 'delete_Control' control.pk %}">
+        <i class="material-icons">delete_forever</i>
+      </button>
+      <div class="stats-small stats-small--1 card card-small">
+        <div class="card-body p-0 d-flex">
+          <p class="indexlable">{{control.index}}</p>
+          <div class="d-flex flex-column m-auto">
+            <div class="stats-small__data text-center">
+              <span class="stats-small__label text-uppercase">{{ control.Name }}</span>
+              <h6 class="stats-small__value count my-3">123,456,789</h6>
+            </div>
+            <div class="stats-small__data">
+              <span class="stats-small__percentage">{{ control.Text }}</span>
+            </div>
+          </div>
+          <canvas  height="120" class="blog-overview-stats-small-1"></canvas>
+        </div>
+      </div>
+    </li>
+    {% endif %}
+    <!--
+          {{ control.isPLC_ID }}
+          {{ control.Contact_Type }}
+          {{ control.Contact_ID }}
+            -->
+
+
+
+
+
+
+    {%endwith%}
+    {% endfor %}
+
+
+
+  </ul>
+
+  <script>
+    $(function () {
+      $("#sortable").sortable({
+        revert: true,
+        delay: 100,
+        cursor: "move",
+        tolerance: "pointer",
+        opacity: 0.6,
+        placeholder: "ui-state-highlight col-lg col-md-6 col-sm-6 mb-4",
+        dropOnEmpty: true,
+        containment: $(".row"),
+        update: function (event, ui) {
+          var indexs = '';
+          $(".itemindex").attr('vaule', '')
+          $("#sortable li").each(function (index, e) {
+            console.log($(this).find(".indexlable").text());
+            $(this).find(".indexlable").text(index);
+            indexs += $(this).attr('id') + '=' + index + ','
+          });
+          $(".itemindex").val(indexs)
+          $(".savebutton").attr('disabled',false)
+        }
+      });
+      $(".row").disableSelection();
+    });
+  </script>
+
 
   <!-- Small Stats Blocks -->
-  
+
 </div>
 
+<script>
+
+
+
+</script>
+<style>
+  .col-lg {
+    list-style: none;
+    float:left;
+    padding: initial;
+  }
+  .ui-state-highlight{
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+  .stats-small {
+    width: 17.5rem;
+  }
+  p.indexlable {
+    position: absolute;
+    border: #a4b0be78 solid 1px;
+    border-radius: 3px;
+    margin: 4px;
+    padding: 0px 4px 0px 4px;
+    color: #a4b0be78;
+  }
+
+  .update-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: -14px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .delete-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: 15px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 12px;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>
+
+
+
+<script>
+
+  $(document).ready(function () {
+    setInterval(timers, 500);
+    $(".create-book").modalForm({
+      formURL: "{% url 'CreateControl' %}"
+    });
+    $(".update-button").each(function () {
+      $(this).modalForm({ formURL: $(this).data('id') });
+    });
+    $(".delete-button").each(function () {
+      $(this).modalForm({ formURL: $(this).data('id') });
+    })
+    $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+      $(".alert").slideUp(500);
+    });
+
+  });
+
+  $(document).ready(function () {
+    $(".RowButton").hide();
+    $(".Tooltip").tooltip();
+    $("#customToggle-EditMode").click(function () {
+      if ($("#customToggle-EditMode").prop("checked")) {
+        $(".RowButton").show();
+      } else {
+        $(".RowButton").hide();
+      }
+
+    });
+
+  });
+
+
+
+
+
+
+  $(document).ready(function () {
+    var boSmallStatsDatasets = [
+      {
+        backgroundColor: 'rgba(0, 184, 216, 0.1)',
+        borderColor: 'rgb(0, 184, 216)',
+        data: [1, 2, 1, 3, 5, 4, 7],
+      },
+      {
+        backgroundColor: 'rgba(23,198,113,0.1)',
+        borderColor: 'rgb(23,198,113)',
+        data: [1, 2, 3, 3, 3, 4, 4]
+      },
+      {
+        backgroundColor: 'rgba(255,180,0,0.1)',
+        borderColor: 'rgb(255,180,0)',
+        data: [2, 3, 3, 3, 4, 3, 3]
+      },
+      {
+        backgroundColor: 'rgba(255,65,105,0.1)',
+        borderColor: 'rgb(255,65,105)',
+        data: [1, 7, 1, 3, 1, 4, 8]
+      },
+      {
+        backgroundColor: 'rgb(0,123,255,0.1)',
+        borderColor: 'rgb(0,123,255)',
+        data: [3, 2, 3, 2, 4, 5, 4]
+      }
+    ];
+    function boSmallStatsOptions(max) {
+      return {
+        maintainAspectRatio: true,
+        responsive: true,
+        // Uncomment the following line in order to disable the animations.
+        // animation: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false,
+          custom: false
+        },
+        elements: {
+          point: {
+            radius: 0
+          },
+          line: {
+            tension: 0.3
+          }
+        },
+        scales: {
+          xAxes: [{
+            gridLines: false,
+            scaleLabel: false,
+            ticks: {
+              display: false
+            }
+          }],
+          yAxes: [{
+            gridLines: false,
+            scaleLabel: false,
+            ticks: {
+              display: false,
+              // Avoid getting the graph line cut of at the top of the canvas.
+              // Chart.js bug link: https://github.com/chartjs/Chart.js/issues/4790
+              suggestedMax: max
+            }
+          }],
+        },
+      };
+    }
+    boSmallStatsDatasets.map(function (el, index) {
+      var chartOptions = boSmallStatsOptions(Math.max.apply(Math, el.data) + 1);
+      var ctx = document.getElementsByClassName('blog-overview-stats-small-1');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5", "Label 6", "Label 7"],
+          datasets: [{
+            label: 'Today',
+            fill: 'start',
+            data: el.data,
+            backgroundColor: el.backgroundColor,
+            borderColor: el.borderColor,
+            borderWidth: 1.5,
+          }]
+        },
+        options: chartOptions
+      });
+    });
+  });
+
+  function timers() {
+
+  }
+</script>
 
 
 {% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<!-- Specific Page JS goes HERE  
+
 
 <script src="/static/assets/js/app/app-blog-overview.1.1.0.js"></script>
-
+-->
 {% endblock javascripts %}

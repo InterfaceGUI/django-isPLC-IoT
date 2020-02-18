@@ -22,11 +22,11 @@ router = DefaultRouter()
 router.register(r'isplcs', views.isplcViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include("authentication.urls")),
     path("", include("app.urls")),
     path("", include("dashboard.urls")),
     re_path(r'^api/', include(router.urls)),
-    re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('admin/', admin.site.urls),
+    path("", include("authentication.urls")),
 ]
  

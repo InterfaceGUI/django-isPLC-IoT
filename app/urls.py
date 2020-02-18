@@ -8,6 +8,6 @@ urlpatterns = [
     re_path('user-profile.html', userProfileView, name='user'),
     re_path(r'^.*\.html', views.pages, name='pages'),
     #re_path(r'dashboard/',RedirectView.as_view(url='/')),
-    # The home page
-    path('', views.index, name='home'),
+    # The home page 
+    
 ]
