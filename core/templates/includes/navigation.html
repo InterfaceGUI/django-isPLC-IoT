@@ -59,6 +59,10 @@
                         <a class="dropdown-item" href="/user-profile.html">
                           <i class="material-icons">&#xE7FD;</i> Profile</a>
                         <div class="dropdown-divider"></div>
+                        {% if request.user.is_superuser %}
+                        <a class="dropdown-item text-info" href="/admin" >
+                          <i class="material-icons text-info">settings_applications</i> Admin </a>
+                        {% endif %}
                         <a class="dropdown-item text-danger" href={% url 'logout' %} >
                           <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                       </div>

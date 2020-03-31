@@ -26,7 +26,11 @@ class ControlForm(BSModalForm):
             if c.uid == user_id:
                 uLControls.append(c)
         uLControls.sort(key=takeindex4sort)
-        self.initial['index'] = uLControls[-1].index + 1
+        if len(uLControls) == 0:
+            self.initial['index'] = 0
+        else:
+            self.initial['index'] =  uLControls[-1].index + 1
+
 
         uid = user_id 
         self.initial['uid'] = uid

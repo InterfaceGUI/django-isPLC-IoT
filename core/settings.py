@@ -17,6 +17,10 @@ from unipath import Path
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = Path(__file__).parent
 
+
+ngork_HOST = '0a550afc.ngrok.io'
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -26,7 +30,7 @@ SECRET_KEY = 'x5#tggw!!1@*7js4&gd@4a^c-f8&%%x4m&y_+7yde9z_d_=%)n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost',ngork_HOST,'192.168.0.100']
 
 
 # Application definition
@@ -45,7 +49,10 @@ INSTALLED_APPS = [
     'isplcAPI',
     'bootstrap_modal_forms',
     'widget_tweaks',
+    'channels',
 ]
+
+ASGI_APPLICATION = 'core.routing.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -116,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei'
 
 USE_I18N = True
 
@@ -139,3 +146,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "core/static"),
 )
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('localhost',6379)],
+        },
+    },
+}

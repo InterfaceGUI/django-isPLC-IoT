@@ -7,6 +7,13 @@
 
 {% block content %}
 
+<!-- Messages -->
+<div id="myAlert">
+
+</div>
+<!-- End Messages -->
+
+
 <div class="main-content-container container-fluid px-4">
   <!-- Page Header -->
   <div class="page-header row no-gutters py-4">
@@ -14,6 +21,10 @@
       <span class="text-uppercase page-subtitle">Dashboard</span>
       <h3 class="page-title"></h3>
     </div>
+  </div>
+  <div style="text-align: right;">
+    <button type="button" class="reconnectbutton submit-btn mb-2 btn btn-sm btn-success mr-2"> <i class="ricon material-icons"
+      style="font-size: x-large;">replay</i></button>
   </div>
   <!-- End Page Header -->
   <div class="row">
@@ -155,6 +166,62 @@
   <!-- Small Stats Blocks -->
   
 </div>
+
+
+<script>
+  $(document).ready(function () {
+    intiWebSocket();
+  });
+  $(".reconnectbutton").click( function( event ) {
+    $(".ricon").rotate({angle:0,animateTo:-720 , duration:2000});
+    intiWebSocket();
+  });
+
+  function showAlert(lable,msg){
+      if($("#myAlert").find("div#myAlert2").length==0){
+        var Adata = "<div style='border-radius:0;' class='alert alert-icon alert-"+ lable + " alert-dismissible fade show mb-0' role='alert' id='myAlert2'> <i class='fa fa-info mx-2'></i> "+ msg +" <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+        $("#myAlert").append(Adata);
+      }
+      $(".alert").fadeTo(4000, 500).slideUp(500, function(){
+      $(".alert").slideUp(500);
+      $(".alert").remove()
+    })};
+
+  function intiWebSocket() {
+    $(".reconnectbutton").attr('disabled', true);
+
+    
+    var ClientSocket = new WebSocket(
+      'ws://' + window.location.host + '/ws/Client/View/{{User.id}}');
+
+    ClientSocket.onmessage = function(e) {
+      var data = JSON.parse(e.data);
+      var message = data['message'];
+      console.log(message + '\n');
+    };
+
+    ClientSocket.onopen = function(e){
+      $(".reconnectbutton").attr('disabled', false);
+      showAlert('success','Successfully connected to the server!');
+    };
+
+    ClientSocket.onclose = function(e) {
+      $(".reconnectbutton").attr('disabled', false);
+      showAlert('warning','Client socket closed unexpectedly');
+      console.error('Client socket closed unexpectedly');
+    };
+    function sendmsg(type,device,CType,CID,vaule){
+      ClientSocket.send(JSON.stringify({
+            'type': type,
+            'device':device,
+            'cType':CType,
+            'cID':CID,
+            'vaule':vaule
+  }))}};
+</script>
+
+
+
 
 
 {% for control in Controls%}

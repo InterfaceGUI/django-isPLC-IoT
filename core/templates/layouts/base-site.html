@@ -17,12 +17,14 @@
     <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" href="/static/assets/css/shards-dashboards.1.1.0.min.css">
     <link rel="stylesheet" href="/static/assets/css/extras.1.1.0.min.css">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="/static/assets/js/pace.js"></script> 
+    <link href="/static/assets/themes/blue/pace-theme-flash.css" rel="stylesheet" />
   </head>
   <body class="h-100">
 
     <div class="container-fluid">
+      
       <div class="row">
-        
         {% include 'includes/sidebar.html' %}
 
         <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
@@ -37,11 +39,11 @@
       </div>
     </div>
     
-
+    
     {% include 'includes/scripts.html' %}
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}{% endblock javascripts %}
-
+    
   </body>
 </html>

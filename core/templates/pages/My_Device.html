@@ -1,0 +1,155 @@
+{% extends "layouts/base-site.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Messages -->
+<div id="myAlert">
+
+</div>
+<!-- End Messages -->
+
+
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">Dashboard</span>
+      <h3 class="page-title"></h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    
+  </div>
+ 
+  <div class="row">
+    <div class="col">
+      <div class="card card-small mb-4">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">Devices</h6>
+        </div>
+        <div class="card-body p-0 pb-3 text-center">
+          <table class="table mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col" class="border-0">#</th>
+                <th scope="col" class="border-0">Device Name</th>
+                <th scope="col" class="border-0">Device ID</th>
+                <th scope="col" class="border-0">isPLC Count</th>
+                <th scope="col" class="border-0">Device IP</th>
+                <th scope="col" class="border-0">Update Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+               {% for device in devices%}
+                <td>{{ forloop.counter }}</td>
+                <td>{{ device.device_name }}</td>
+                <td>{{ device.device_ID }}</td>
+                <td>{{ device.displc_count }}</td>
+                <td>{{ device.device_IP }}</td>
+                <td>{{ device.last_modify_date }}</td>
+               {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  
+</div>
+
+
+<script>
+
+</script>
+
+
+<style>
+  .col-lg {
+    list-style: none;
+    float:left;
+    padding: initial;
+  }
+  .ui-state-highlight{
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+  .stats-small {
+    width: 17.5rem;
+  }
+  p.indexlable {
+    position: absolute;
+    border: #a4b0be78 solid 1px;
+    border-radius: 3px;
+    margin: 4px;
+    padding: 0px 4px 0px 4px;
+    color: #a4b0be78;
+  }
+
+  .update-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: -14px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .delete-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: 15px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 12px;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+{% endblock javascripts %}

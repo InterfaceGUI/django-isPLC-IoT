@@ -1,0 +1,236 @@
+{% extends "layouts/base-site.html" %}
+
+{% block title %} Tester {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+<link href="/static/assets/css/jquery.json-viewer.css" rel="stylesheet">
+
+<!-- Messages -->
+<div id="myAlert">
+
+</div>
+<!-- End Messages -->
+
+
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">Tester Center</span>
+      <h3 class="page-title"></h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <!-- Input & Button Groups -->
+    <div class="card card-small mb-4 ml-5">
+      <div class="card-header border-bottom">
+        <h6 class="m-0">WebSocket Test</h6>
+      </div>  
+      <ul class="list-group list-group-flush">
+        <div class="row ml-1 mr-5">
+        <li class="list-group-item px-3">
+          <form>
+            <!-- Input Groups -->
+            <div class="input-group mb-3">
+              <input type="text" class="wsUrl form-control" placeholder="ws://" aria-label="ws://" aria-describedby="basic-addon1"> 
+              <div class="input-group-append">
+                <button class="wsOpenbtn btn btn-white" type="button">Open</button>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <textarea cols="40" rows="5" class="wsSendMessage form-control" placeholder="contact" aria-label="contact" aria-describedby="basic-addon2"></textarea> 
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <button class="wsSendbtn btn btn-white" type="button">Send</button>
+                <button class="btn btn-white" id="btn-json-viewer" type="button">json-viewer</button>
+              </div>
+            </div>
+            <!-- Input Groups -->
+            <!-- Seamless Input Groups -->
+            <strong class="text-muted d-block mb-2">Receive</strong>
+            <div class="input-group mb-3">
+              <textarea cols="40" rows="5" class="wsReceiveMessage form-control" placeholder="contact" aria-label="contact" aria-describedby="basic-addon2"></textarea> 
+            </div>
+            <!-- Input/Button Group -->
+
+            <!-- / Input/Button Group -->
+          </form>
+        
+        </li>
+        <li>
+          
+          <pre id="json-viewer"></pre>
+          <script>
+            $(".wsReceiveMessage").bind('input propertychange', function() {
+              JV()
+            });
+            function JV(){
+              var val = $(".wsReceiveMessage").val()
+              console.log(val);
+              try {
+                var input = eval('(' + $(".wsReceiveMessage").val() + ')');
+                $('#json-viewer').jsonViewer(input);
+              }
+              catch (error) {
+                alert("Cannot eval JSON: " + error);
+              }
+            }
+          </script>
+        </li>
+
+        
+      </div>
+      </ul>
+    </div>
+    <!-- / Input & Button Groups -->
+  </div>
+ 
+  <div class="row">
+    
+  </div>
+
+
+
+  
+</div>
+
+<script>
+  $(document).ready(function () {
+    $(".wsUrl").val('ws://' + window.location.host + '/ws/Client/View/1')
+  });
+
+  $(".wsOpenbtn").click( function( event ) {
+    intiWebSocket($(".wsUrl").val());
+  });
+
+  
+
+  function showAlert(lable,msg){
+      if($("#myAlert").find("div#myAlert2").length==0){
+        var Adata = "<div style='border-radius:0;' class='alert alert-icon alert-"+ lable + " alert-dismissible fade show mb-0' role='alert' id='myAlert2'> <i class='fa fa-info mx-2'></i> "+ msg +" <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+        $("#myAlert").append(Adata);
+      }
+      $(".alert").fadeTo(4000, 500).slideUp(500, function(){
+      $(".alert").slideUp(500);
+      $(".alert").remove()
+    })};
+
+  function intiWebSocket(url) {
+    $(".reconnectbutton").attr('disabled', true);
+    $(".wsSendbtn").click(function(ev){
+      sendMsg($(".wsSendMessage").val());
+    });
+    
+    var ClientSocket = new WebSocket(url);
+
+    ClientSocket.onmessage = function(e) {
+      var data = JSON.parse(e.data);
+      var message = data['message'];
+      console.log(message + '\n');
+      $(".wsReceiveMessage").val(message)
+      JV()
+    };
+
+    ClientSocket.onopen = function(e){
+      $(".reconnectbutton").attr('disabled', false);
+      showAlert('success','Successfully connected to the server!');
+    };
+
+    ClientSocket.onclose = function(e) {
+      $(".reconnectbutton").attr('disabled', false);
+      showAlert('warning','Client socket closed unexpectedly');
+      console.error('Client socket closed unexpectedly');
+    };
+    function sendMsg(msg){
+      ClientSocket.send(msg);
+    }
+  };
+</script>
+
+
+<style>
+  .col-lg {
+    list-style: none;
+    float:left;
+    padding: initial;
+  }
+  .ui-state-highlight{
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+  .stats-small {
+    width: 17.5rem;
+  }
+  p.indexlable {
+    position: absolute;
+    border: #a4b0be78 solid 1px;
+    border-radius: 3px;
+    margin: 4px;
+    padding: 0px 4px 0px 4px;
+    color: #a4b0be78;
+  }
+
+  .update-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: -14px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .delete-button {
+    position: relative;
+    text-align: right;
+    z-index: 10;
+    margin: 15px 8px -14px -14px;
+    float: right;
+    border-radius: 100%;
+    font-size: 17px;
+    padding: 0px 5px 0px 6px;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 12px;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+{% endblock javascripts %}
