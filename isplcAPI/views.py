@@ -1,13 +1,19 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import isplc
-from .serializers import isplcSerializer
+from .models import isplc , devices
+from .serializers import isplcSerializer , devicesSerializer
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
+
+class devicesViewSet(viewsets.ModelViewSet):
+
+    queryset = devices.objects.all()
+    serializer_class = devicesSerializer
+    permission_classes = (IsAuthenticated,)
 
 class isplcViewSet(viewsets.ModelViewSet):
     #b = isplc.objects.get(id = 11)
@@ -25,5 +31,8 @@ class isplcViewSet(viewsets.ModelViewSet):
     queryset = isplc.objects.all()
     serializer_class = isplcSerializer
     permission_classes = (IsAuthenticated,)
+
+
+
 
 

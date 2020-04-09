@@ -54,14 +54,34 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="fePassword">Username </label>
-                                {{ form.username }}
-                               <!-- <input class="form-control" id="fePassword" placeholder="Username" value="{{ request.user.username }}"> -->
+                                
+                                <input class="form-control" id="feUsername" placeholder="Username" value="{{ request.user.username }}">
                             </div>
                         </div>
-
-
                         <button type="submit" class="btn btn-accent">Update Account</button>
                       </formmethod="post" action="">
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row mt-2">
+                    <div class="col">
+
+                      <form method="post" id="post-form">
+                        {% csrf_token %} 
+                        <div class="form-row">
+                          <div class="col-md-6">
+                            <label for="fepasswd">Password</label> 
+                            <input type="password" name="password" placeholder="Password" class="form-control" required="" id="password">
+                            <!--<input class="form-control" id="feEmailAddress" placeholder="Email" value="{{ request.user.email }}"> -->
+                          </div>
+                          <div class="col-md-6">
+                            <label for="feToken">App Token</label> 
+                            <input class="form-control " id="feToken" placeholder="Token" value="">
+                            <div class="valid-feedback">The App Token has been generated!</div>
+                          </div>
+                        </div>
+                        <button type="button" class="post2 btn btn-info mt-1">Generate Token</button>
+                      </form>
                     </div>
                   </div>
                 </li>
@@ -72,6 +92,27 @@
         <!-- End Default Light Table -->
     </div>
 <script>
+  $(".post2").click(function(e){
+    $.ajax({
+        type:'POST',
+        url:"/api-token-auth/",
+        data:{
+            username:$('#feUsername').val(),
+            password:$('#password').val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+        success:function(json){
+          $("#feToken").val(json.token)
+          $("#feToken").addClass("is-valid")
+          
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+    }
+    });
+  });
+
   $(".alert").fadeTo(2000, 500).slideUp(500, function(){
           $(".alert").slideUp(500);
   });

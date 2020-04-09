@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from rest_framework.routers import DefaultRouter
 from isplcAPI import views
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
 router.register(r'isplcs', views.isplcViewSet)
+router.register(r'devices', views.devicesViewSet)
 
 urlpatterns = [
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
     path("", include("app.urls")),
     path("", include("dashboard.urls")),
     re_path(r'^api/', include(router.urls)),

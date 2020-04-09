@@ -30,8 +30,8 @@ SECRET_KEY = 'x5#tggw!!1@*7js4&gd@4a^c-f8&%%x4m&y_+7yde9z_d_=%)n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost',ngork_HOST,'192.168.0.100']
-
+#ALLOWED_HOSTS = ['192.168.0.*','127.0.0.1','localhost',ngork_HOST]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'authentication',
     'dashboard',
     'rest_framework',
+    'rest_framework.authtoken',
     'isplcAPI',
     'bootstrap_modal_forms',
     'widget_tweaks',
@@ -87,6 +88,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

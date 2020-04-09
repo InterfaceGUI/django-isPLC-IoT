@@ -7,7 +7,9 @@ from django.contrib.auth.models import User
 from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView, BSModalDeleteView
 from django.urls import reverse_lazy
 from .forms import ControlForm, UControlForm
-from .models import control, devices
+from .models import control
+from isplcAPI.models import devices
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 
@@ -31,7 +33,7 @@ def editdash(request):
 
         for ic in mess:
             if ic == '':
-                continue
+                continue6
             cpk = ic.split('=')[0]
             cindex = ic.split('=')[1]
             cc = control.objects.get(pk=cpk)
@@ -70,7 +72,6 @@ def dashpage(request):
 
 @login_required(login_url="/login/")
 def index(request):
-
     Ruid = request.user.id
     controls = control.objects.all()  # 取出全部合集
     uLControls = list()
@@ -115,31 +116,3 @@ def device(request):
 
     return render(request, "pages/My_Device.html",{'devices':uDs})
 
-
-@login_required(login_url="/login/")
-def uptate_device(request):
-    if request.method == "POST":
-        # device.objects.all()
-        user = request.user
-        dID = request.POST['device_ID']
-        dName = request.POST['device_name']
-        dCount = request.POST['displc_count']
-        dIP = get_client_ip(request)
-        devic = devices.objects.all()
-        for d in devic:
-            if d.device_ID == dID:
-                dg = devices.objects.get(device_ID=dID)
-                dg.author = user
-                dg.displc_count = dCount
-                dg.device_IP = dIP
-                dg.save()
-                break
-        else:
-            devices.objects.create(
-                author=user, device_name=dName, device_ID=dID, displc_count=dCount, device_IP=dIP)
-
-        for p in request.POST:
-            print(p)
-        pass
-
-    return JsonResponse({'result': 'ok'})

@@ -1,15 +1,33 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.exceptions import DenyConnection
 from django.contrib.auth.models import AnonymousUser
+from rest_framework.authentication  import SessionAuthentication, BasicAuthentication , TokenAuthentication 
+from rest_framework.authtoken.models import Token
+from asgiref.sync import sync_to_async
+from urllib.parse import parse_qs
 import json
 
+
+@sync_to_async
+def AuthToken(token):
+    t = Token.objects.all()
+    for u in t:
+        if u.pk == token:
+            return True
+    return False
+
 class LiveConsumer(AsyncWebsocketConsumer):
+
+
+
     async def connect(self):
         # get name from ws url args
         self.name = self.scope['url_route']['kwargs']['name']
         self.room_group_name = self.scope['url_route']['kwargs']['ID']
-
         if self.scope['user'] == AnonymousUser():
-            raise DenyConnection("Invalid User")
+            Rauth = await AuthToken(parse_qs(self.scope["query_string"].decode("utf8"))["token"][0])
+            if not Rauth:
+                raise DenyConnection("Invalid User")
 
         # Join group group_add('group_name', 'channel_name')
         await self.channel_layer.group_add(
@@ -18,7 +36,7 @@ class LiveConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
-
+    
     async def disconnect(self, close_code):
         # Leave group group_discard('group_name', 'channel_name')
         await self.channel_layer.group_discard(
