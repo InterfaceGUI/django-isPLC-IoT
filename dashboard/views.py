@@ -33,7 +33,7 @@ def editdash(request):
 
         for ic in mess:
             if ic == '':
-                continue6
+                continue
             cpk = ic.split('=')[0]
             cindex = ic.split('=')[1]
             cc = control.objects.get(pk=cpk)
