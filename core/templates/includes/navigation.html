@@ -12,6 +12,7 @@
                 </form>
                 
                 {% if user.is_authenticated %}
+                {% load avatar_tags %}
                   <ul class="navbar-nav border-left flex-row ">
                     <li class="nav-item border-right dropdown notifications">
                       <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,7 +51,8 @@
                     </li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img class="user-avatar rounded-circle mr-2" src="/static/assets/img/avatars/0.png" alt="User Avatar">
+                        {% avatar user 40 class="user-avatar rounded-circle mr-2" alt="User Avatar" %}
+                       <!-- <img class="user-avatar rounded-circle mr-2" src="/static/assets/img/avatars/0.png" alt="User Avatar"> -->
                         <span class="d-none d-md-inline-block">
                           {{ request.user.username }}
                         </span>

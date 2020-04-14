@@ -21,7 +21,6 @@ class devices(models.Model):
     author = models.ForeignKey(
         User, db_column="user", on_delete=models.CASCADE)
     device_name = models.CharField(max_length=40)
-    device_ID = models.CharField(max_length=40)
     displc_count = models.IntegerField(default=1)
     device_IP = models.GenericIPAddressField()
     last_modify_date = models.DateTimeField(auto_now=True)

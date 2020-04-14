@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import isplc,devices
+from rest_framework.authtoken.models import Token
 
 
 class isplcSerializer(serializers.ModelSerializer):
@@ -14,4 +15,9 @@ class devicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = devices
         # fields = '__all__'
-        fields = ('id', 'author','device_name','device_ID', 'displc_count', 'device_IP', 'last_modify_date')
+        fields = ('id', 'author','device_name', 'displc_count', 'device_IP', 'last_modify_date')
+
+class TokenAuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = ("__all__")

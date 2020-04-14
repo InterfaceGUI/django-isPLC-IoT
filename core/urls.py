@@ -18,12 +18,16 @@ from django.urls import path,include,re_path
 from rest_framework.routers import DefaultRouter
 from isplcAPI import views
 from rest_framework.authtoken.views import obtain_auth_token
+from core import settings
+from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'isplcs', views.isplcViewSet)
 router.register(r'devices', views.devicesViewSet)
+router.register(r'token2auther', views.TokenAuthorView, basename='T4A')
 
 urlpatterns = [
+    
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
     path("", include("app.urls")),
     path("", include("dashboard.urls")),
@@ -31,5 +35,6 @@ urlpatterns = [
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
     path("", include("authentication.urls")),
-]
+    path('avatar/', include('avatar.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
  

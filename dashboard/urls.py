@@ -1,7 +1,7 @@
 from django.views.generic import RedirectView
 from django.urls import path, re_path, include
 from .views import editdash, dashpage, Create_Control, ControlUpdateView, ControlDeleteView, index, device
-
+from avatar.views import change
 urlpatterns = [
     # Matches any html file
 
