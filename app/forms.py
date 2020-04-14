@@ -1,5 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
+from django import forms
+from django.core.files.images import get_image_dimensions
+
 
 class UserProfile(forms.ModelForm):
     username = forms.CharField(
@@ -18,5 +21,4 @@ class UserProfile(forms.ModelForm):
         ))
     class Meta:
         model = User
-        fields = ('username','email')
-        
+        fields = ('username','email') 

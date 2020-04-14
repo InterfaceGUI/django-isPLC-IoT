@@ -39,23 +39,22 @@
               <tr>
                 <th scope="col" class="border-0">#</th>
                 <th scope="col" class="border-0">Device Name</th>
-                <th scope="col" class="border-0">Device ID</th>
                 <th scope="col" class="border-0">isPLC Count</th>
                 <th scope="col" class="border-0">Device IP</th>
                 <th scope="col" class="border-0">Update Time</th>
               </tr>
             </thead>
             <tbody>
+              {% for device in devices%}
               <tr>
-               {% for device in devices%}
+               
                 <td>{{ forloop.counter }}</td>
                 <td>{{ device.device_name }}</td>
-                <td>{{ device.device_ID }}</td>
                 <td>{{ device.displc_count }}</td>
                 <td>{{ device.device_IP }}</td>
                 <td>{{ device.last_modify_date }}</td>
-               {% endfor %}
               </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>

@@ -2,11 +2,15 @@ from django.shortcuts import render
 
 # Create your views here.
 from .models import isplc , devices
-from .serializers import isplcSerializer , devicesSerializer
+from .serializers import isplcSerializer , devicesSerializer , TokenAuthorSerializer
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 class devicesViewSet(viewsets.ModelViewSet):
@@ -33,6 +37,28 @@ class isplcViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
+class TokenAuthorView(viewsets.ReadOnlyModelViewSet):
+    
+    permission_classes = (IsAuthenticated,)
+    serializer_class = TokenAuthorSerializer
+    #queryset = Token.objects.all()
+    #def dispatch(self, *args, **kwargs):
+    #   
+    #   queryset = Token.objects.get(user=self.request.user.id)
+    #   
+    #   response = super(TokenAuthorView, self).dispatch(*args, **kwargs)
+    #
+    #        return response
 
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Token.objects.all()
+        queryset = queryset.filter(user=self.request.user.id)
+        return queryset
+
+   
 
 

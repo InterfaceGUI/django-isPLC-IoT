@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'avatar',
     'app',
     'authentication',
     'dashboard',
@@ -69,6 +70,7 @@ ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "home"   # Route defined in app/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in app/urls.py
 TEMPLATE_DIR = os.path.join(BASE_DIR, "core/templates")  # ROOT dir for templates
+
 
 TEMPLATES = [
     {
@@ -143,8 +145,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+AVATAR_THUMB_FORMAT = "PNG"
+AVATAR_CHANGE_TEMPLATE = str(os.path.join(BASE_DIR,"core/templates/user/changeAvatar.html"))
+AVATAR_CACHE_ENABLED = False
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = str(os.path.join(BASE_DIR,"media/"))
+MEDIA_URL = '/media/'
 
 # STATIC_ROOT production load 
 STATIC_ROOT = PROJECT_DIR.child('core').child('staticfiles')

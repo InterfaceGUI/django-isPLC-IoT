@@ -97,22 +97,20 @@ class ControlUpdateView(BSModalUpdateView):
     success_message = 'Success! Control was updated.'
     success_url = reverse_lazy('edit')
 
-
 class ControlDeleteView(BSModalDeleteView):
     model = control
     template_name = 'dash/delete_Control.html'
     success_message = 'Success! Control was deleted.'
     success_url = reverse_lazy('edit')
-
+ 
 
 @login_required(login_url="/login/")
 def device(request):
-    ds = devices.objects.all()
-    uDs = list()
+    ds = devices.objects.filter(author_id=request.user.id).order_by('last_modify_date')
+    #ds = devices.objects.get(author_id=request.user.id)
+    dev = list()
+    for d in ds:
+        dev.append(d)
 
-    for ad in ds:
-        if ad.author == request.user:
-            uDs.append(ad)
-
-    return render(request, "pages/My_Device.html",{'devices':uDs})
+    return render(request, "pages/My_Device.html",{'devices':dev})
 

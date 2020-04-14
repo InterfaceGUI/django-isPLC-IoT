@@ -30,7 +30,7 @@ def userProfileView(request):
     return render(request, "user/user-profile.html", {"form": form,'isUpdate' : isUpdate})
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/login/") 
 def pages(request):
     context = {}
     # All resource paths end in .html.
