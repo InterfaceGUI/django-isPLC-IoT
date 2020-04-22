@@ -25,6 +25,7 @@ router = DefaultRouter()
 router.register(r'isplcs', views.isplcViewSet)
 router.register(r'devices', views.devicesViewSet)
 router.register(r'token2auther', views.TokenAuthorView, basename='T4A')
+router.register(r'GetControlContext', views.ControlContextView, basename='ControlContext')
 
 urlpatterns = [
     

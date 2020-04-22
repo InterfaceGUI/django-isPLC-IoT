@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from .models import isplc , devices
-from .serializers import isplcSerializer , devicesSerializer , TokenAuthorSerializer
+from .serializers import isplcSerializer , devicesSerializer , TokenAuthorSerializer , ControlContextSerializer
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -11,6 +11,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from rest_framework.authtoken.models import Token
+
+from dashboard.models import control
+
 # Create your views here.
 
 class devicesViewSet(viewsets.ModelViewSet):
@@ -59,6 +62,22 @@ class TokenAuthorView(viewsets.ReadOnlyModelViewSet):
         queryset = queryset.filter(user=self.request.user.id)
         return queryset
 
-   
+class ControlContextView(viewsets.ReadOnlyModelViewSet):
+    
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ControlContextSerializer
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = control.objects.all()
+        queryset = queryset.filter(uid=self.request.user.id)
+        
+        
+
+        return queryset
+
 
 

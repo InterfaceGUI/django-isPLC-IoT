@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import isplc,devices
 from rest_framework.authtoken.models import Token
-
+from dashboard.models import control
 
 class isplcSerializer(serializers.ModelSerializer):
 
@@ -20,4 +20,9 @@ class devicesSerializer(serializers.ModelSerializer):
 class TokenAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
+        fields = ("__all__")
+
+class ControlContextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = control
         fields = ("__all__")
