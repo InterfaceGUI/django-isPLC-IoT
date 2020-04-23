@@ -169,8 +169,59 @@
 
 
 <script>
+  var btnList = {};
+  var toggList = {};
+  var GLList = {};
+  var YLList = {};
+  var RLList = {};
+  var valueList = {};
+
+  
+
+  //{% for control in Controls%}
+  //{% with CK=forloop.counter0 %}
+    //{% if control.control_type == 1 %}
+
+      btnList["Cbutton-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+
+    //{% elif control.control_type == 2 %}
+    
+      toggList["customToggle{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+
+      //toggList.push("customToggle{{ CK }}")
+
+    //{% elif control.control_type == 4 %}
+
+      GLList["GL-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+      //GLList.push("GL-{{ CK }}")
+    
+    //{% elif control.control_type == 5 %}
+
+      YLList["YL-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+
+    //{% elif control.control_type == 6 %}
+
+      RLList["RL-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+
+    //{% elif control.control_type == 7 %}
+
+      valueList["value-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+
+    //{% endif %}
+
+  //{% endwith %}
+  //{% endfor %}
+
+
   $(document).ready(function () {
+    console.log(btnList);
+    console.log(toggList);
+    console.log(GLList);
+    console.log(YLList);
+    console.log(RLList);
+    console.log(valueList);
     intiWebSocket();
+
   });
   $(".reconnectbutton").click( function( event ) {
     $(".ricon").rotate({angle:0,animateTo:-720 , duration:2000});
@@ -219,61 +270,6 @@
             'vaule':vaule
   }))}};
 </script>
-
-
-
-
-
-{% for control in Controls%}
-{% if control.control_type == 1 %}
-
-<script>
-  
-</script>
-
-{% elif control.control_type == 1 %}
-
-<script>
-
-</script>
-
-{% elif control.control_type == 2 %}
-
-<script>
-
-</script>
-
-{% elif control.control_type == 3 %}
-
-<script>
-
-</script>
-
-{% elif control.control_type == 4 %}
-
-<script>
-
-</script>
-
-{% elif control.control_type == 5 %}
-
-<script>
-
-</script>
-
-{% elif control.control_type == 6 %}
-
-
-{% endif %}
-<script>
-
-
-</script>
-{% endfor %}
-
-
-
-
 
 
 
