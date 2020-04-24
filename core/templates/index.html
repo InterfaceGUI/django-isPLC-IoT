@@ -183,11 +183,28 @@
     //{% if control.control_type == 1 %}
 
       btnList["Cbutton-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+      
+      $("#Cbutton-{{ CK }}").mousedown( function( event ) {
+        wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","True");
+        console.log("Cbutton-{{ CK }} is mousedown");
+      });
+
+      $("#Cbutton-{{ CK }}").mouseup(function(e){
+        wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","false");
+      })
 
     //{% elif control.control_type == 2 %}
     
-      toggList["customToggle{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+      $("#customToggle{{ CK }}").change(function() {
+        if(this.checked) {
+          wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","True");
+        }else{
+          wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","false");
+        }
+      });
 
+      toggList["customToggle{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+      
       //toggList.push("customToggle{{ CK }}")
 
     //{% elif control.control_type == 4 %}
@@ -211,7 +228,7 @@
 
   //{% endwith %}
   //{% endfor %}
-
+  var wsModule = {}
 
   $(document).ready(function () {
     console.log(btnList);
@@ -261,14 +278,25 @@
       showAlert('warning','Client socket closed unexpectedly');
       console.error('Client socket closed unexpectedly');
     };
-    function sendmsg(type,device,CType,CID,vaule){
+    /*
+    Did: isplc id
+    Type: ReadCoil, ReadRegister, SetSignalCoil, SetSignalRegister
+    Coid : Coil, Register
+    start: StartPoint, Point, Register 
+    Range: Range, Status, Data
+    */
+    var send = function sendmsg(type,Did,Coid,start,Range){
       ClientSocket.send(JSON.stringify({
-            'type': type,
-            'device':device,
-            'cType':CType,
-            'cID':CID,
-            'vaule':vaule
-  }))}};
+            "type":type,
+            'deviceid':Did,
+            'coid':Coid,
+            'start':start,
+            'Range':Range
+        }
+      ))
+    }
+    wsModule.sendmsg = send;
+  };
 </script>
 
 

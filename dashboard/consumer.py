@@ -9,10 +9,10 @@ import json
 
 
 @sync_to_async
-def AuthToken(token):
+def AuthToken(tokens):
     t = Token.objects.all()
     for u in t:
-        if u.pk == token:
+        if u.pk == tokens:
             return True
     return False
 
