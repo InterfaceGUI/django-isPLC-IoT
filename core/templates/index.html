@@ -176,52 +176,52 @@
   var RLList = {};
   var valueList = {};
 
-  
+  var ReadList = [];
 
   //{% for control in Controls%}
   //{% with CK=forloop.counter0 %}
     //{% if control.control_type == 1 %}
 
-      btnList["Cbutton-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
+      //btnList["Cbutton-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
       
-      $("#Cbutton-{{ CK }}").mousedown( function( event ) {
-        wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","True");
+      $("#Cbutton-{{ CK }}").mousedown( function(e) {
+        wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","1");
         console.log("Cbutton-{{ CK }} is mousedown");
       });
 
       $("#Cbutton-{{ CK }}").mouseup(function(e){
-        wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","false");
+        wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","0");
       })
 
     //{% elif control.control_type == 2 %}
     
-      $("#customToggle{{ CK }}").change(function() {
+      $("#customToggle{{ CK }}").change(function(e) {
         if(this.checked) {
-          wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","True");
+          wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","1");
         }else{
-          wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","false");
+          wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","0");
         }
       });
-
+      ReadList.push({"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"})
       toggList["customToggle{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
       
       //toggList.push("customToggle{{ CK }}")
 
     //{% elif control.control_type == 4 %}
-
+      ReadList.push({"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"})
       GLList["GL-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
       //GLList.push("GL-{{ CK }}")
     
     //{% elif control.control_type == 5 %}
-
+      ReadList.push({"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"})
       YLList["YL-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
 
     //{% elif control.control_type == 6 %}
-
+      ReadList.push({"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"})
       RLList["RL-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
 
     //{% elif control.control_type == 7 %}
-
+      ReadList.push({"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"})
       valueList["value-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
 
     //{% endif %}
@@ -237,6 +237,7 @@
     console.log(YLList);
     console.log(RLList);
     console.log(valueList);
+    console.log(ReadList);
     intiWebSocket();
 
   });
@@ -271,6 +272,7 @@
     ClientSocket.onopen = function(e){
       $(".reconnectbutton").attr('disabled', false);
       showAlert('success','Successfully connected to the server!');
+      wsModule.sendJson2Ws({"mode":"SetRead","Context":ReadList});
     };
 
     ClientSocket.onclose = function(e) {
@@ -285,17 +287,23 @@
     start: StartPoint, Point, Register 
     Range: Range, Status, Data
     */
+
+    var csend = function sendJson2Ws(text){
+      ClientSocket.send(JSON.stringify(text))
+    }
+
     var send = function sendmsg(type,Did,Coid,start,Range){
-      ClientSocket.send(JSON.stringify({
+      ClientSocket.send(JSON.stringify({"mode":"Wire","Context":{
             "type":type,
             'deviceid':Did,
             'coid':Coid,
             'start':start,
             'Range':Range
-        }
+        }}
       ))
     }
     wsModule.sendmsg = send;
+    wsModule.sendJson2Ws = csend;
   };
 </script>
 
