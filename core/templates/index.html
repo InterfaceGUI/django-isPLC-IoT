@@ -181,8 +181,6 @@
   //{% for control in Controls%}
   //{% with CK=forloop.counter0 %}
     //{% if control.control_type == 1 %}
-
-      //btnList["Cbutton-{{ CK }}"] = {"isPLC_ID":"{{control.isPLC_ID}}","Type":"{{control.Contact_Type}}","Contact_ID":"{{control.Contact_ID}}"}
       
       $("#Cbutton-{{ CK }}").mousedown( function(e) {
         wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","1");
@@ -194,9 +192,11 @@
       })
 
     //{% elif control.control_type == 2 %}
-    
+      var toggstatus{{ CK }};
       $("#customToggle{{ CK }}").change(function(e) {
+        //$(this).prop("checked", false);
         if(this.checked) {
+          
           wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","1");
         }else{
           wsModule.sendmsg("SetSignalCoil","{{control.isPLC_ID}}","{{control.Contact_Type}}","{{control.Contact_ID}}","0");
@@ -229,6 +229,61 @@
   //{% endwith %}
   //{% endfor %}
   var wsModule = {}
+  var isplc=[{X:{},Y:{},M:{},D:{}},{X:{},Y:{},M:{},D:{}},{X:{},Y:{},M:{},D:{}},{X:{},Y:{},M:{},D:{}},{X:{},Y:{},M:{},D:{}}]
+
+  
+  function UpdateView() {
+//{% for control in Controls%}
+  //{% with CK=forloop.counter0 %}
+    //{% if control.control_type == 1 %}
+    
+    //{% elif control.control_type == 2 %}
+      //{{control.isPLC_ID}}  {{control.Contact_Type}}  {{control.Contact_ID}}  
+      var typeee ;
+      var typeid = {{control.Contact_Type}};
+      if (typeid == 1){
+
+        typeee = isplc[{{control.isPLC_ID}}-1].X;
+
+      }else if (typeid == 2){
+
+        typeee = isplc[{{control.isPLC_ID}}-1].Y;
+
+      }else if (typeid == 3){
+
+        typeee = isplc[{{control.isPLC_ID}}-1].M;
+
+      }else if (typeid == 4){
+
+        typeee = isplc[{{control.isPLC_ID}}-1].D;
+
+      }else{
+        return
+      };
+     
+      if (toggstatus{{ CK }} == typeee["{{control.Contact_ID}}"]){
+        
+      } else {
+        toggstatus{{ CK }} = typeee["{{control.Contact_ID}}"];
+        console.log(toggstatus{{ CK }});
+        $("#customToggle{{ CK }}").prop("checked", typeee["{{control.Contact_ID}}"]);
+      };
+      
+      
+
+    //{% elif control.control_type == 4 %}
+    
+    //{% elif control.control_type == 5 %}
+
+    //{% elif control.control_type == 6 %}
+
+    //{% elif control.control_type == 7 %}
+
+    //{% endif %}
+
+  //{% endwith %}
+  //{% endfor %}
+  }
 
   $(document).ready(function () {
     console.log(btnList);
@@ -266,7 +321,31 @@
     ClientSocket.onmessage = function(e) {
       var data = JSON.parse(e.data);
       var message = data['message'];
-      console.log(message + '\n');
+      //console.log(message + '\n');
+      data = JSON.parse(message);
+      message = data['From'];
+      if (data['From'] = "device") {
+      }else{
+        return
+      }
+      
+      for (var key in data['context']){
+        //console.log(key);
+        try {
+          isplc[key-1].X = data['context'][key][0]
+          isplc[key-1].Y = data['context'][key][1]
+          isplc[key-1].M = data['context'][key][2]
+          isplc[key-1].D = data['context'][key][3]
+        } catch (error) {
+          
+        }
+        
+        
+      };
+      
+      //console.log(isplc);
+      UpdateView();
+
     };
 
     ClientSocket.onopen = function(e){
