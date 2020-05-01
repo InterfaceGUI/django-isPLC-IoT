@@ -239,46 +239,151 @@
     
     //{% elif control.control_type == 2 %}
       //{{control.isPLC_ID}}  {{control.Contact_Type}}  {{control.Contact_ID}}  
-      var typeee ;
-      var typeid = {{control.Contact_Type}};
-      if (typeid == 1){
+      var typeee{{ CK }} ;
+      var typeid{{ CK }} = {{control.Contact_Type}};
+      if (typeid{{ CK }} == 1){
 
-        typeee = isplc[{{control.isPLC_ID}}-1].X;
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].X;
 
-      }else if (typeid == 2){
+      }else if (typeid{{ CK }} == 2){
 
-        typeee = isplc[{{control.isPLC_ID}}-1].Y;
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].Y;
 
-      }else if (typeid == 3){
+      }else if (typeid{{ CK }} == 3){
 
-        typeee = isplc[{{control.isPLC_ID}}-1].M;
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].M;
 
-      }else if (typeid == 4){
+      }else if (typeid{{ CK }} == 4){
 
-        typeee = isplc[{{control.isPLC_ID}}-1].D;
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].D;
 
       }else{
         return
       };
      
-      if (toggstatus{{ CK }} == typeee["{{control.Contact_ID}}"]){
+      if (toggstatus{{ CK }} == typeee{{ CK }}["{{control.Contact_ID}}"]){
         
       } else {
-        toggstatus{{ CK }} = typeee["{{control.Contact_ID}}"];
+        toggstatus{{ CK }} = typeee{{ CK }}["{{control.Contact_ID}}"];
         console.log(toggstatus{{ CK }});
-        $("#customToggle{{ CK }}").prop("checked", typeee["{{control.Contact_ID}}"]);
+        $("#customToggle{{ CK }}").prop("checked", typeee{{ CK }}["{{control.Contact_ID}}"]);
       };
       
       
 
     //{% elif control.control_type == 4 %}
-    
+    var typeee{{ CK }} ;
+      var typeid{{ CK }} = {{control.Contact_Type}};
+      if (typeid{{ CK }} == 1){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].X;
+
+      }else if (typeid{{ CK }} == 2){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].Y;
+
+      }else if (typeid{{ CK }} == 3){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].M;
+
+      }else if (typeid{{ CK }} == 4){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].D;
+
+      }else{
+        return
+      };
+     
+      
+      
+      if (typeee{{ CK }}["{{control.Contact_ID}}"]){
+        $("#GL-{{ CK }}").css("background-color", "#17c671");
+      } else {
+        $("#GL-{{ CK }}").css("background-color", "#00331F");
+      };
     //{% elif control.control_type == 5 %}
+    var typeee{{ CK }} ;
+      var typeid{{ CK }} = {{control.Contact_Type}};
+      if (typeid{{ CK }} == 1){
 
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].X;
+
+      }else if (typeid{{ CK }} == 2){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].Y;
+
+      }else if (typeid{{ CK }} == 3){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].M;
+
+      }else if (typeid{{ CK }} == 4){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].D;
+
+      }else{
+        return
+      };
+     
+      
+      
+      if (typeee{{ CK }}["{{control.Contact_ID}}"]){
+        $("#YL-{{ CK }}").css("background-color", "#ffb400");
+      } else {
+        $("#YL-{{ CK }}").css("background-color", "#664700");
+      };
     //{% elif control.control_type == 6 %}
+    var typeee{{ CK }} ;
+      var typeid{{ CK }} = {{control.Contact_Type}};
+      if (typeid{{ CK }} == 1){
 
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].X;
+
+      }else if (typeid{{ CK }} == 2){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].Y;
+
+      }else if (typeid{{ CK }} == 3){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].M;
+
+      }else if (typeid{{ CK }} == 4){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].D;
+
+      }else{
+        return
+      };
+     
+      
+      
+      if (typeee{{ CK }}["{{control.Contact_ID}}"]){
+        $("#RL-{{ CK }}").css("background-color", "#c4183c");
+      } else {
+        $("#RL-{{ CK }}").css("background-color", "#5A0B1C");
+      };
     //{% elif control.control_type == 7 %}
+    var typeee{{ CK }} ;
+      var typeid{{ CK }} = {{control.Contact_Type}};
+      if (typeid{{ CK }} == 1){
 
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].X;
+
+      }else if (typeid{{ CK }} == 2){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].Y;
+
+      }else if (typeid{{ CK }} == 3){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].M;
+
+      }else if (typeid{{ CK }} == 4){
+
+        typeee{{ CK }} = isplc[{{control.isPLC_ID}}-1].D;
+
+      }else{
+        return
+      };
+      $("#value-{{ CK }}").text(typeee{{ CK }}["{{control.Contact_ID}}"]);
     //{% endif %}
 
   //{% endwith %}
@@ -330,7 +435,7 @@
       }
       
       for (var key in data['context']){
-        //console.log(key);
+        //console.log(data);
         try {
           isplc[key-1].X = data['context'][key][0]
           isplc[key-1].Y = data['context'][key][1]
