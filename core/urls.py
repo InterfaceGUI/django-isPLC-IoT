@@ -26,7 +26,8 @@ router.register(r'isplcs', views.isplcViewSet)
 router.register(r'devices', views.devicesViewSet)
 router.register(r'token2auther', views.TokenAuthorView, basename='T4A')
 router.register(r'GetControlContext', views.ControlContextView, basename='ControlContext')
-
+router.register(r'GetLineToken', views.lineTokenView, basename='getlinetoken')
+router.register(r'GetlineSetting', views.lineSettingView, basename='getlineSetting')
 urlpatterns = [
     
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here

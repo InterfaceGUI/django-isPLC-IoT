@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from .models import isplc , devices
-from .serializers import isplcSerializer , devicesSerializer , TokenAuthorSerializer , ControlContextSerializer
+from .serializers import isplcSerializer , devicesSerializer , TokenAuthorSerializer , ControlContextSerializer ,LineTokenSerializer,LineSettingSerializer
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
 from dashboard.models import control
-
+from app.models import LineModel,LineSettingsModel
 # Create your views here.
 
 class devicesViewSet(viewsets.ModelViewSet):
@@ -79,5 +79,32 @@ class ControlContextView(viewsets.ReadOnlyModelViewSet):
 
         return queryset
 
+class lineTokenView(viewsets.ReadOnlyModelViewSet):
+    
+    permission_classes = (IsAuthenticated,)
+    serializer_class = LineTokenSerializer
 
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = LineModel.objects.all()
+        queryset = queryset.filter(author=self.request.user)
+    
+        return queryset
 
+class lineSettingView(viewsets.ReadOnlyModelViewSet):
+    
+    permission_classes = (IsAuthenticated,)
+    serializer_class = LineSettingSerializer
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+
+        queryset = LineSettingsModel.objects.filter(author=self.request.user)
+    
+        return queryset

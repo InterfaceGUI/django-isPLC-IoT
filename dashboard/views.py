@@ -97,7 +97,7 @@ class ControlUpdateView(BSModalUpdateView):
     success_message = 'Success! Control was updated.'
     success_url = reverse_lazy('edit')
 
-class ControlDeleteView(BSModalDeleteView):
+class ControlDeleteView(BSModalDeleteView): 
     model = control
     template_name = 'dash/delete_Control.html'
     success_message = 'Success! Control was deleted.'
