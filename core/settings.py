@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = Path(__file__).parent
 
 
-ngork_HOST = '0a550afc.ngrok.io'
+ngork_HOST = '2d198719.ngrok.io'
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,7 +31,7 @@ SECRET_KEY = 'x5#tggw!!1@*7js4&gd@4a^c-f8&%%x4m&y_+7yde9z_d_=%)n'
 DEBUG = True
 
 #ALLOWED_HOSTS = ['192.168.0.*','127.0.0.1','localhost',ngork_HOST]
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*',ngork_HOST]
 
 # Application definition
 
