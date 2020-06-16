@@ -1,0 +1,49 @@
+<!doctype html>
+<html class="no-js h-100" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/static/assets/img/favicon.png" />
+
+    <title>
+      isPLC IoT - {% block title %}{% endblock %} 
+    </title>
+    
+    <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" href="/static/assets/css/shards-dashboards.1.1.0.min.css">
+    <link rel="stylesheet" href="/static/assets/css/extras.1.1.0.min.css">
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="/static/assets/js/pace.js"></script> 
+    <link href="/static/assets/themes/blue/pace-theme-flash.css" rel="stylesheet" />
+  </head>
+  <body class="h-100">
+
+    <div class="container-fluid">
+      
+      <div class="row">
+        
+
+        <main class="main-content col-lg-12 col-md-12 col-sm-12 p-0 ">
+
+          {% include 'includes/navigationhomepage.html' %}
+
+          {% block content %}{% endblock content %}
+
+          {% include 'includes/footer.html' %}
+
+        </main>
+      </div>
+    </div>
+    
+    
+    {% include 'includes/scripts.html' %}
+
+    <!-- Specific Page JS goes HERE  -->
+    {% block javascripts %}{% endblock javascripts %}
+    
+  </body>
+</html>

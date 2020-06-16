@@ -26,6 +26,7 @@ class LiveConsumer(AsyncWebsocketConsumer):
         self.room_group_name = self.scope['url_route']['kwargs']['ID']
         if self.scope['user'] == AnonymousUser():
             try:
+                tokken = parse_qs(self.scope["query_string"].decode("utf8"))["token"][0]
                 Rauth = await AuthToken(parse_qs(self.scope["query_string"].decode("utf8"))["token"][0])
             except Exception:
                 raise DenyConnection("Invalid User")

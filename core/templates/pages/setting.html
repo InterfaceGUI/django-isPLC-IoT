@@ -63,10 +63,9 @@
                         <form method="post">    
                             {% csrf_token %}    
                             <div class="col-md-6">
-                              <label for="fePassword">Username </label>
+                              <label for="fePassword">Token </label>
                               
                               <input type="text" name="LineToken" placeholder="LineToken" class="form-control" required="" id="id_LineToken" value="">
-                              <div class="valid-feedback">The App Token has been generated!</div>
                             </div>
                             <br>
                             <button class="post2 btn btn-info mt-1" type="submit">Submit</button>  

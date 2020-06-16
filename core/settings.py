@@ -31,7 +31,7 @@ SECRET_KEY = 'x5#tggw!!1@*7js4&gd@4a^c-f8&%%x4m&y_+7yde9z_d_=%)n'
 DEBUG = True
 
 #ALLOWED_HOSTS = ['192.168.0.*','127.0.0.1','localhost',ngork_HOST]
-ALLOWED_HOSTS = ['*',ngork_HOST]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 

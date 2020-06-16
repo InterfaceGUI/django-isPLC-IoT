@@ -82,6 +82,9 @@ def index(request):
     uLControls.sort(key=takeindex4sort)
     return render(request, "index.html", {'Controls': uLControls,'User': request.user})
 
+def HomePage(request):
+    return render(request, "homepage.html")
+
 
 class Create_Control(BSModalCreateView):
     form_class = ControlForm
