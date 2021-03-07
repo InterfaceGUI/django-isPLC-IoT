@@ -28,7 +28,7 @@ def UserLineSetting(request):
             messages.success(request, 'Success Upload Line Channel Access Token(CAT)!')
     
     lsList = list()
-    try:
+    try: 
         LSMobj = LineSettingsModel.objects.filter(author=request.user)
         for x in LSMobj:
             lsList.append(x)

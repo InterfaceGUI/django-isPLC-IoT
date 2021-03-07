@@ -421,7 +421,7 @@
 
     
     var ClientSocket = new WebSocket(
-      'ws://' + window.location.host + '/ws/Client/View/{{User.id}}');
+      'wss://' + window.location.host + '/ws/Client/View/{{User.id}}');
 
     ClientSocket.onmessage = function(e) {
       var data = JSON.parse(e.data);

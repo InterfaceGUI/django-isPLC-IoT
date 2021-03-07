@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}\\manage.py",
             "args": [
                 "runserver",
-                "7123"
+                "localhost:7123"
             ],
             "django": true
         }
